@@ -10,6 +10,7 @@ int x;
 int y;
 int head;
 
+
 // Add a constructor with parameters to initialize each variable.
 
 Segment(int x, int y) {
@@ -29,7 +30,7 @@ int foodX;
 int foodY;
 int direction = UP;
 int total = 0;
-
+ArrayList<Segment> tails = new ArrayList< Segment >();
 
 //*
 // ***** SETUP METHODS *****
@@ -39,7 +40,7 @@ int total = 0;
 void setup() {
 size(500,500);
 this.head = new Segment(100, 100);
-frameRate(60);
+frameRate(20);
 dropFood();
 }
 
@@ -76,6 +77,7 @@ void drawSnake() {
   fill(255, 0, 0);
   rect(head.x, head.y, 10, 10);
   
+  eat();
 }
 
 
@@ -86,18 +88,27 @@ void drawSnake() {
 
 void drawTail() {
   //Draw each segment of the tail 
-
+  
+rect(head.x + 10, head.y, + 10, 10, 10);
 }
 
 void manageTail() {
   //After drawing the tail, add a new segment at the "start" of the tail and remove the one at the "end" 
   //This produces the illusion of the snake tail moving.
-  
+  checkTailCollision();
+  drawTail();
+  Segment block = new Segment(head.x, head.y);
+  tails.add(block);
+  tails.remove(tails.size() - 1);
+ 
 }
 
 void checkTailCollision() {
   //If the snake crosses its own tail, shrink the tail back to one segment
-  
+  if (head.x && head.y == x && y) {
+  total = 1;
+  tails.clear();
+  }
 }
 
 
@@ -128,16 +139,16 @@ void move() {
     
   switch(direction) {
   case UP:
-    head.y -= 5;
+    head.y -= 10;
     break;
   case DOWN:
-    head.y += 5; 
+    head.y += 10; 
     break;
   case LEFT:
-   head.x -= 5; 
+   head.x -= 10; 
     break;
   case RIGHT:
-    head.x += 5; 
+    head.x += 10; 
     break;
    
   }
@@ -164,5 +175,9 @@ void checkBoundaries() {
 
 void eat() {
   //When the snake eats the food, its tail should grow and more food appear
+  if (head.x == foodX && head.y == foodY) {
+  total = total + 1;
+  dropFood();
+  }
 
-}
+};
