@@ -9,6 +9,8 @@ class Segment {
 int x;
 int y;
 int head;
+int numX;
+int numY;
 
 
 // Add a constructor with parameters to initialize each variable.
@@ -31,6 +33,8 @@ int foodY;
 int direction = UP;
 int total = 0;
 ArrayList<Segment> tails = new ArrayList< Segment >();
+Segment numX;
+Segment numY;
 
 //*
 // ***** SETUP METHODS *****
@@ -76,8 +80,10 @@ void drawSnake() {
   //Draw the head of the snake followed by its tail
   fill(255, 0, 0);
   rect(head.x, head.y, 10, 10);
-  
+  manageTail();
+  drawTail();
   eat();
+
 }
 
 
@@ -88,8 +94,12 @@ void drawSnake() {
 
 void drawTail() {
   //Draw each segment of the tail 
+for (int i = 0; i < tails.size(); i++) {  
+ Segment newblock = tails.get(i);
+ 
   
-rect(head.x + 10, head.y, + 10, 10, 10);
+rect(newblock.x, newblock.y,  10, 10);
+}
 }
 
 void manageTail() {
@@ -100,18 +110,25 @@ void manageTail() {
   Segment block = new Segment(head.x, head.y);
   tails.add(block);
   tails.remove(tails.size() - 1);
+  println("test");
+  
  
 }
 
 void checkTailCollision() {
   //If the snake crosses its own tail, shrink the tail back to one segment
-  if (head.x && head.y == x && y) {
+  for (int i=1; i < tails.size(); i++) {
+  numX = tails.get(i);
+  numY = tails.get(i);
+  if (head.x == numX.x && head.y == numY.y) {
   total = 1;
   tails.clear();
+  println("snake");
   }
+  }
+
+
 }
-
-
 
 //*
 // ***** CONTROL METHODS *****
@@ -176,8 +193,12 @@ void checkBoundaries() {
 void eat() {
   //When the snake eats the food, its tail should grow and more food appear
   if (head.x == foodX && head.y == foodY) {
+   
   total = total + 1;
   dropFood();
+  println(tails.size());
+  Segment block = new Segment(head.x, head.y);
+  tails.add(block);
   }
 
 };
